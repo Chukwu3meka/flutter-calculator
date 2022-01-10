@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:math_expressions/math_expressions.dart';
 
-import './screens/result.dart';
-import './screens/buttons.dart';
-import './screens/equation.dart';
+import './result.dart';
+import './buttons.dart';
+import './equation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,14 +37,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _result = "0";
-  String _equation = "";
+  String _equation = "0";
 
   void _clickHandler(String keyPressed, bool operator) {
     switch (keyPressed) {
       case "C":
         setState(() {
-          _equation = "";
-          _result = "";
+          _equation = "0";
+          _result = "0";
         });
         break;
       case "DEL":

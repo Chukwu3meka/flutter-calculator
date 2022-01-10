@@ -10,9 +10,10 @@ class Result extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerRight,
+      padding: EdgeInsets.only(right: 10),
       child: Text(
         _result,
-        style: TextStyle(fontSize: 40),
+        style: TextStyle(fontSize: 40, color: Color.fromRGBO(20, 20, 80, 1)),
       ),
     );
   }
