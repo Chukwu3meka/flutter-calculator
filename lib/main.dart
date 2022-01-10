@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,31 +32,80 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _result = 0;
+  String _result = "0";
+  String _equation = "";
 
-  void _incrementCounter(int keyPressed) {
-    print(
-      'hey $keyPressed',
-    );
-    print(keyPressed.runtimeType);
+  void _appendEquationHandler(keyPressed, bool operator) {
+    print('${keyPressed.runtimeType} hey $keyPressed');
 
     setState(() {
-      _result = _result + keyPressed;
+      _equation = '$_equation$keyPressed';
     });
   }
 
-  Widget buttonKeys(String buttonText, bool operator) {
+  Widget buttonKeys(var buttonText, bool operator) {
     return TextButton(
         style: TextButton.styleFrom(
-          padding: const EdgeInsets.all(10.0),
-          backgroundColor: Color.fromRGBO(20, 20, 80, 1),
+          padding: const EdgeInsets.all(15.0),
+          backgroundColor: operator
+              ? Color.fromRGBO(10, 10, 40, 1)
+              : Color.fromRGBO(20, 20, 80, 1),
           primary: Colors.white,
           textStyle: const TextStyle(
             fontSize: 20,
           ),
         ),
-        onPressed: () => _incrementCounter(7),
-        child: Text(buttonText));
+        onPressed: () {
+          switch (buttonText) {
+            case "C":
+              setState(() {
+                _equation = "";
+              });
+              break;
+            case "DEL":
+              if (_equation.length > 0) {
+                print(_equation.substring(0, _equation.length - 1));
+                setState(() {
+                  _equation = _equation.substring(0, _equation.length - 1);
+                });
+              }
+              break;
+            case "=":
+              try {
+                Parser p = new Parser();
+                Expression exp = p
+                    .parse(_equation.replaceAll("x", "*").replaceAll("÷", "/"));
+                ContextModel cm = ContextModel();
+
+                double initialResult = (exp.evaluate(EvaluationType.REAL, cm));
+
+                int initialResultDecimal = int.parse(
+                    initialResult.toString().split('.')[1].substring(0));
+
+                setState(() {
+                  _result = initialResultDecimal == 0
+                      ? initialResult.toStringAsFixed(0)
+                      : initialResult
+                                  .toString()
+                                  .split('.')[1]
+                                  .substring(0)
+                                  .length >=
+                              11
+                          ? initialResult.toStringAsFixed(4)
+                          : initialResult.toString();
+                });
+              } catch (e) {
+                print(e);
+                setState(() {
+                  _result = 'Error';
+                });
+              }
+              break;
+            default:
+              _appendEquationHandler(buttonText, operator);
+          }
+        },
+        child: Text(buttonText.toString()));
   }
 
   @override
@@ -75,16 +125,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border.all(color: Colors.purpleAccent),
                 ),
                 child: Text(
-                  '$_result',
+                  '$_equation',
                   maxLines: 1,
-                  style: TextStyle(),
+                  style: TextStyle(fontSize: 30),
                 ),
               ),
               Container(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  "clclc",
-                  style: TextStyle(fontSize: 20),
+                  _result,
+                  style: TextStyle(fontSize: 40),
                 ),
               ),
               Spacer(),
@@ -102,45 +152,61 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        buttonKeys('7'),
-                        buttonKeys('8'),
-                        buttonKeys('9'),
-                        buttonKeys('('),
-                        buttonKeys(')'),
+                        buttonKeys('C', true),
+                        buttonKeys('%', true),
+                        buttonKeys('Exp', true),
+                        buttonKeys('DEL', true),
                       ],
                     ),
-// Expanded()
-                    SizedBox(height: 30),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          buttonKeys('4'),
-                          buttonKeys('5'),
-                          buttonKeys('6'),
-                          buttonKeys('*'),
-                          buttonKeys('/')
-                        ]),
-                    SizedBox(height: 30),
+                    SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        buttonKeys('1'),
-                        buttonKeys('2'),
-                        buttonKeys('3'),
-                        buttonKeys('+'),
-                        buttonKeys('-'),
+                        buttonKeys('+/-', true),
+                        buttonKeys('(', true),
+                        buttonKeys(')', true),
+                        buttonKeys(' - ', true),
                       ],
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        buttonKeys(7, false),
+                        buttonKeys(8, false),
+                        buttonKeys('9', false),
+                        buttonKeys(' + ', true),
+                      ],
+                    ),
+// Expanded()
+                    SizedBox(height: 20),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          buttonKeys('4', false),
+                          buttonKeys('5', false),
+                          buttonKeys('6', false),
+                          buttonKeys(' * ', true),
+                        ]),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        buttonKeys('1', false),
+                        buttonKeys('2', false),
+                        buttonKeys('3', false),
+                        buttonKeys(' ÷ ', true)
+                      ],
+                    ),
+                    SizedBox(height: 20),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        buttonKeys('0'),
-                        buttonKeys('.'),
-                        buttonKeys('+/-'),
-                        buttonKeys('exp'),
-                        buttonKeys('='),
+                        buttonKeys('.', false),
+                        buttonKeys('0', false),
+                        buttonKeys('00', false),
+                        buttonKeys('=', true),
                       ],
                     ),
                   ],
