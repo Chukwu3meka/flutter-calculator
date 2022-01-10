@@ -28,4 +28,6 @@ To start calculator app simply run flutter run --enable-software-rendering
 5. run 'adb connect <ip>:5555' ~~Where <ip> is the IP Address of your Mobile Device~~
 6. You can uplug USB on successful connect message
 
+**We installed **math_expressions: ^2.3.0** to be able to make calculations based on user input**
+
 [Visit my portfolio here ~ Chukwuemeka](https://chukwuemeka.vercel.app)
