@@ -13,7 +13,7 @@ class Result extends StatelessWidget {
       padding: EdgeInsets.only(right: 10),
       child: Text(
         _result,
-        style: TextStyle(fontSize: 40, color: Color.fromRGBO(20, 20, 80, 1)),
+        style: TextStyle(fontSize: 50, color: Color.fromRGBO(20, 20, 80, 1)),
       ),
     );
   }
