@@ -37,13 +37,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _result = "0";
-  String _equation = "0";
+  String _equation = "";
 
   void _clickHandler(String keyPressed, bool operator) {
     switch (keyPressed) {
       case "C":
         setState(() {
-          _equation = "0";
+          _equation = "";
           _result = "0";
         });
         break;
@@ -108,7 +108,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 // height: constraint.maxHeight - 130.0,
                 padding: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.purpleAccent),
                   color: Colors.blueGrey[600],
                 ),
                 child: Column(
@@ -116,58 +115,53 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Buttons('C', true, _clickHandler),
+                        Buttons('+/-', true, _clickHandler),
                         Buttons('%', true, _clickHandler),
                         Buttons('Exp', true, _clickHandler),
                         Buttons('DEL', true, _clickHandler),
+                        Buttons('C', true, _clickHandler),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Buttons('+/-', true, _clickHandler),
+                        Buttons('9', false, _clickHandler),
                         Buttons('(', true, _clickHandler),
                         Buttons(')', true, _clickHandler),
                         Buttons(' - ', true, _clickHandler),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Buttons('7', false, _clickHandler),
-                        Buttons('8', false, _clickHandler),
-                        Buttons('9', false, _clickHandler),
                         Buttons(' + ', true, _clickHandler),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Buttons('4', false, _clickHandler),
                           Buttons('5', false, _clickHandler),
                           Buttons('6', false, _clickHandler),
+                          Buttons('7', false, _clickHandler),
+                          Buttons('8', false, _clickHandler),
                           Buttons(' * ', true, _clickHandler),
                         ]),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Buttons('1', false, _clickHandler),
                         Buttons('2', false, _clickHandler),
                         Buttons('3', false, _clickHandler),
+                        Buttons('4', false, _clickHandler),
                         Buttons(' ÷ ', true, _clickHandler)
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Buttons('.', false, _clickHandler),
-                        Buttons('0', false, _clickHandler),
+                        Buttons('000', false, _clickHandler),
                         Buttons('00', false, _clickHandler),
+                        Buttons('0', false, _clickHandler),
+                        Buttons('.', false, _clickHandler),
                         Buttons('=', true, _clickHandler),
                       ],
                     ),
